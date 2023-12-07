@@ -1,0 +1,38 @@
+import { OnModuleInit } from '@nestjs/common';
+import { EntityManager } from 'typeorm';
+import { BaseService } from '@/shared/service/base.service';
+import { CustomRedisService } from '@/shared/service/redis/redis.service';
+import { ApplicationEntity } from '../entity/application.entity';
+import { ApplicationCreateVo } from '../vo/application.create.vo';
+import { ApplicationEditVo } from '../vo/application.edit.vo';
+import { ApplicationDetailRspDto } from '../dto/application.detail.rsp.dto';
+import { SessionService } from '@/session-module/service/session.service';
+import { UserService } from '@/user-module/service/user.service';
+import { LocationService } from '@/location-module/service/location.service';
+import { BounceService } from '@/bounce-module/service/bounce.service';
+import { PageService } from '@/page-module/service/page.service';
+import { EventService } from '@/event-module/service/event.service';
+export declare class ApplicationService extends BaseService implements OnModuleInit {
+    private readonly entityManager;
+    private readonly redis;
+    private readonly sessionService;
+    private readonly eventService;
+    private readonly userService;
+    private readonly locationService;
+    private readonly bounceService;
+    private readonly pageService;
+    private readonly logger;
+    constructor(entityManager: EntityManager, redis: CustomRedisService, sessionService: SessionService, eventService: EventService, userService: UserService, locationService: LocationService, bounceService: BounceService, pageService: PageService);
+    onModuleInit(): Promise<void>;
+    create(vo: ApplicationCreateVo): Promise<any>;
+    del(appId: string): Promise<import("@/shared/service/base.service").BaseResponse>;
+    edit(vo: ApplicationEditVo): Promise<any>;
+    list(): Promise<any>;
+    fetchAppListfromDb(): Promise<ApplicationEntity[]>;
+    fetchJobAppListfromDb(): Promise<ApplicationEntity[]>;
+    detail(appId: string): Promise<import("@/shared/service/base.service").BaseResponse>;
+    fetchAppInfoFromDB(appId: string): Promise<ApplicationEntity>;
+    createck(appId: string): Promise<void>;
+    packageApp(entity: ApplicationEntity): ApplicationDetailRspDto;
+    createDeviceNoTable(app_id: string): Promise<any>;
+}

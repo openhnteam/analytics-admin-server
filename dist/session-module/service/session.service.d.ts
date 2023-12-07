@@ -1,0 +1,32 @@
+import { StsTaskDto } from '@/shared/dto/sts.task.dto';
+import { OnAppInit } from '@/shared/interface/app.init.interface';
+import { DailyTaskScheduler } from '@/shared/interface/daily.interface';
+import { BaseService } from '@/shared/service/base.service';
+import { ClickhouseService } from '@/shared/service/clickhouse/clickhouse.service';
+import { Dayjs } from 'dayjs';
+import { EntityManager } from 'typeorm';
+import { StsSessionEntity } from '../entity/sts.session.entity';
+import { AdminPeriodVo } from '@/shared/vo/admin.period.vo';
+import { AdminUnitVo } from '@/shared/vo/admin.unit.vo';
+import { UserService } from '@/user-module/service/user.service';
+export declare class SessionService extends BaseService implements OnAppInit, DailyTaskScheduler {
+    private readonly clickhouse;
+    private readonly entityManager;
+    private readonly userService;
+    private readonly logger;
+    constructor(clickhouse: ClickhouseService, entityManager: EntityManager, userService: UserService);
+    duration(vo: AdminPeriodVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    list(vo: AdminPeriodVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    frequency(vo: AdminUnitVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    fetchStsSessionEntityList(appId: string, startTime: string, endTime: string): Promise<StsSessionEntity[]>;
+    fetchStsSessionEntityLimit(appId: string, limit: number): Promise<StsSessionEntity[]>;
+    startDailyStatistics(appId: string, date: Dayjs, tasks: StsTaskDto[]): Promise<void>;
+    sessionDailyTask(appId: string, table: string, tasks: StsTaskDto[]): Promise<void>;
+    sessionDurationDailyTask(appId: string, table: string, tasks: StsTaskDto[]): Promise<void>;
+    sessionFrequencyDailyTask(appId: string, table: string, tasks: StsTaskDto[]): Promise<void>;
+    clearDailyData(appId: string, date: Dayjs, tasks: StsTaskDto[]): Promise<void>;
+    delStsSession(appId: string, task: StsTaskDto): Promise<boolean>;
+    onAppInit(appId: string): Promise<boolean>;
+    createSessionTable(appId: string): Promise<boolean>;
+    createSearchTable(appId: string): Promise<boolean>;
+}

@@ -1,0 +1,36 @@
+import { StsTaskDto } from '@/shared/dto/sts.task.dto';
+import { DailyTaskScheduler } from '@/shared/interface/daily.interface';
+import { BaseService } from '@/shared/service/base.service';
+import { ClickhouseService } from '@/shared/service/clickhouse/clickhouse.service';
+import { Dayjs } from 'dayjs';
+import { EntityManager } from 'typeorm';
+import { MetricsGroupVo } from '../vo/metrics.group.vo';
+import { AdminPeriodVo } from '@/shared/vo/admin.period.vo';
+import { MetricsGroupListItemRspDto } from '../dto/metrics.group.rsp.dto';
+import { DeviceMappingEntity } from '../entity/device.mapping.entity';
+import { AppType } from '@/shared/constants/biz.constant';
+import { ApplicationService } from '@/app-module/service/application.service';
+import { MetricsTrendlineVo } from '../vo/metrics.trendline.vo';
+export declare class MetricsService extends BaseService implements DailyTaskScheduler {
+    private readonly clickhouse;
+    private readonly entityManager;
+    private readonly applicationService;
+    private readonly logger;
+    constructor(clickhouse: ClickhouseService, entityManager: EntityManager, applicationService: ApplicationService);
+    fetch(vo: MetricsGroupVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    trendline(vo: MetricsTrendlineVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    setup(): Promise<import("@/shared/service/base.service").BaseResponse>;
+    isPaginationSupported(metric: string): boolean;
+    fetchInstallChannel(vo: AdminPeriodVo): Promise<import("@/shared/service/base.service").BaseResponse>;
+    carrierNameWithCode(code: string): string;
+    mergeObjectsByProperty(arr: MetricsGroupListItemRspDto[], property: string): MetricsGroupListItemRspDto[];
+    mapDeviceOrVendor(arr: MetricsGroupListItemRspDto[], metric: string): Promise<MetricsGroupListItemRspDto[]>;
+    mapSceneCodeToName(appId: string, arr: MetricsGroupListItemRspDto[]): Promise<MetricsGroupListItemRspDto[]>;
+    mapOsVersion(arr: MetricsGroupListItemRspDto[]): MetricsGroupListItemRspDto[];
+    isMiniType(appId: string): Promise<boolean>;
+    appType(appId: string): Promise<AppType>;
+    getDeviceMappingObj(deviceList: string[]): Promise<DeviceMappingEntity[]>;
+    metricToDbField(metric: string): string;
+    startDailyStatistics(appId: string, date: Dayjs, tasks: StsTaskDto[]): Promise<void>;
+    clearDailyData(appId: string, date: Dayjs, tasks: StsTaskDto[]): Promise<void>;
+}
