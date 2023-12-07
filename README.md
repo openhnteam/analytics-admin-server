@@ -40,3 +40,12 @@ npm run start:test
 
 # 启动 （服务端），生产环境-配置文件 dist/config/config.prod.js
 npm run start:prod
+```
+
+## docker-compose 一键部署
+```sh
+# amd64架构(intel芯片)
+docker-compose -f docker-compose.yml up -d
+# arm64架构(apple m系列芯片)
+docker-compose -f docker-compose-arm64.yml up -d
+```
