@@ -5,6 +5,7 @@
 
 **开发环境准备**
 - 基于 docker 容器化技术进行开发，请先[下载安装 docker](https://docs.docker.com/get-docker/)
+- 安装 [docker-compose](https://docs.docker.com/compose/)
 - Node（18.18.2)
 - 采用 [scripty](https://www.npmjs.com/package/scripty) 管理本项目的所有命令。所有的命令（shell 文件）定义在 `scripts`
   文件夹下。
@@ -49,3 +50,7 @@ docker-compose -f docker-compose.yml up -d
 # arm64架构(apple m系列芯片)
 docker-compose -f docker-compose-arm64.yml up -d
 ```
+
+## 本地验证
+1. 浏览器输入ip地址，可访问后管并初始化管理员账号。以本地搭建举例：http://localhost
+2. 各平台前端sdk初始化host参数为 $ip/app。以本地搭建举例：http://localhost/app
