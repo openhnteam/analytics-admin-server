@@ -122,7 +122,7 @@ services:
       - NODE_ENV=docker
 
   ngnix-front:
-    image: openhn/analytics-ngnix-front:1.0.0-arm64
+    image: openhn/analytics-ngnix-front:1.0.1-arm64
     container_name: ngnix-front
     networks:
       analytics-net:
